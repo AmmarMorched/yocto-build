@@ -27,12 +27,14 @@ jobs:
           echo 'BB_NUMBER_THREADS = "2"' >> conf/local.conf
           echo 'PARALLEL_MAKE = "-j 2"' >> conf/local.conf
           echo 'INHERIT += "rm_work"' >> conf/local.conf
+          echo 'BB_DISABLE_SANITY_CHECKS = "1"' >> conf/local.conf
 
       - name: Build image
         run: |
           cd poky
-          source oe-init-build-env build
+          export BB_ENV_PASSTHROUGH_ADDITIONS="BB_NO_NETWORK_SANDBOX"
           export BB_NO_NETWORK_SANDBOX="1"
+          source oe-init-build-env build
           bitbake core-image-minimal
 
       - name: Package result
