@@ -32,6 +32,7 @@ jobs:
         run: |
           cd poky
           source oe-init-build-env build
+          export BB_NO_NETWORK_SANDBOX="1"
           bitbake core-image-minimal
 
       - name: Package result
